@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import InputItem from './components/InputItem';
+import TodoList from './components/TodoList';
+import { useEffect } from 'react';
+import { getAll } from './actions/todoAction';
+import StartBoard from './views/StartBoard';
+
 
 function App() {
+  const todoList = useSelector(state => state.todo.list);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const action = getAll();
+    dispatch(action);
+  }, [dispatch]);
+
+  console.log("Todo list: ", todoList);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div >
+        <center><h1 >Todo list</h1></center>
+      </div>
+
+      <InputItem />
+      <StartBoard todoList={todoList} />
     </div>
   );
 }
